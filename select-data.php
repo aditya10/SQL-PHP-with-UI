@@ -1,5 +1,13 @@
 <html>
+<head>
+  <link rel="stylesheet" href="design.css">
+</head>
     <body>
+      <div class="wrapper">
+        <div class="header">
+          <h2>Airport Database</h2>
+        </div>
+        <div class="table">
         <?php
         $servername = "localhost";
         $username = "root";
@@ -19,13 +27,18 @@
 
         if ($result->num_rows > 0) {
             // output data of each row
+            echo "<table><tr><th>Flight Num</th><th>Departure City</th><th>Arrival City</th></tr>";
             while($row = $result->fetch_assoc()) {
-                echo "Fl No: " . $row["flight_num"]. " - DepCity: " . $row["depcity"]. " - ArrCity: " . $row["arrcity"]. "<br>";
+                echo "<tr>";
+                echo "<td>" . $row["flight_num"]. "</td><td>" . $row["depcity"]. "</td><td>" . $row["arrcity"]. "</td>";
+                echo "</tr>";
             }
         } else {
             echo "0 results";
         }
         $conn->close();
         ?>
-    </body>
+      </div>
+    </div>
+  </body>
 </html>
