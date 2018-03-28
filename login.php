@@ -1,20 +1,15 @@
 <?php
-   define('DB_SERVER', 'localhost');
-   define('DB_USERNAME', 'root');
-   define('DB_PASSWORD', 'root');
-   define('DB_DATABASE', 'AirportDB');
-   $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-
+   include("connect.php");
    session_start();
    
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
       
-      $myusername = mysqli_real_escape_string($db,$_POST['username']);
-      $mypassword = mysqli_real_escape_string($db,$_POST['password']); 
+      $myusername = mysqli_real_escape_string($conn,$_POST['username']);
+      $mypassword = mysqli_real_escape_string($conn,$_POST['password']); 
       
       $sql = "SELECT position FROM airport_staff WHERE staff_name like '%$myusername%' and license_num = '$mypassword'";
-      $result = mysqli_query($db,$sql);
+      $result = mysqli_query($conn,$sql);
       $count = mysqli_num_rows($result);
       
       // If result matched $myusername and $mypassword, table row must be 1 row
