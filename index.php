@@ -1,13 +1,20 @@
 <html>
-<head>
-  <link rel="stylesheet" href="design.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-</head>
+	<head>
+        <title>Team 11 - CPSC 304</title>
+        <link rel="stylesheet" href="css/design.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    </head>
+
     <body>
       <div class="wrapper">
         <div class="header">
-          <h2>Airport Database</h2>
-        </div>
+                <table>
+                    <tr>
+                        <td id="title"><h2>Airport Database</h2></td>
+                        <td id="login"><a href="login.php">Login</a></td>
+                    </tr>
+                </table>
+            </div>
         <div class="table">
           <h3>Arrivals</h3>
         <?php
