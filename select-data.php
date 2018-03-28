@@ -14,7 +14,7 @@
         $servername = "localhost";
         $username = "root";
         $password = "root";
-        $dbname = "AirportSample";
+        $dbname = "AirportDB";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -22,10 +22,12 @@
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-
+		?>
+		
+		<?php
         $now = date("Y-m-d H:i:s");
-        $sql = "SELECT flight_num, depcity, arrcity FROM Plane WHERE arrtime >'$now'";
-        $result = $conn->query($sql);
+        $sql = "SELECT flight_num, depcity, arrcity FROM flight"; //WHERE arrtime >'$now'
+		$result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             // output data of each row
@@ -39,26 +41,16 @@
         } else {
             echo "0 results";
         }
-        $conn->close();
         ?>
       </div>
+		  
+		  
       <div class="table">
         <h3>Departures</h3>
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $dbname = "AirportSample";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $now = date("Y-m-d H:i:s");
-        $sql = "SELECT flight_num, depcity, arrcity FROM Plane WHERE arrtime<'$now' AND deptime>'$now'";
+		  
+		$now = date("Y-m-d H:i:s");
+        $sql = "SELECT flight_num, depcity, arrcity FROM flight"; //WHERE arrtime<'$now' AND deptime>'$now'
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -73,8 +65,12 @@
         } else {
             echo "0 results";
         }
-        $conn->close();
+        ?>
+		  
+		<?php
+		  $conn->close();
         ?>
     </div>
+	</div>
   </body>
 </html>
