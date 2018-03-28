@@ -31,7 +31,7 @@
             echo "<table><tr><th>Flight Num</th><th>Departure City</th><th>Arrival City</th></tr>";
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row["flight_num"]. "</td><td>" . $row["depcity"]. "</td><td>" . $row["arrcity"]. "</td>";
+                echo "<td><a href='plane-info.php?fl_no=".$row["flight_num"]."'>" . $row["flight_num"]. "</a></td><td>" . $row["depcity"]. "</td><td>" . $row["arrcity"]. "</td>";
                 echo "</tr>";
             }
             echo "</table>";
