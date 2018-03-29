@@ -8,15 +8,23 @@
       $myusername = mysqli_real_escape_string($conn,$_POST['username']);
       $mypassword = mysqli_real_escape_string($conn,$_POST['password']); 
       
-      $sql = "SELECT position FROM airport_staff WHERE staff_name like '%$myusername%' and license_num = '$mypassword'";
+	  if(isset($_POST['admin-box'])){
+		  $sql = "SELECT position FROM airport_staff WHERE staff_name like '%$myusername%' and license_num = '$mypassword'";
+	  } else{
+		  $sql = "SELECT airline_name FROM airplane_staff WHERE staff_name like '%$myusername%' and license_num = '$mypassword'";
+	  }
+      
       $result = mysqli_query($conn,$sql);
       $count = mysqli_num_rows($result);
       
       // If result matched $myusername and $mypassword, table row must be 1 row
 		
       if($count == 1) {
-         
-         header("location:admin.php");
+         if(isset($_POST["admin-box"])){
+         	header("location:admin.php");
+		 } else{
+			header("location:airline.php?li_num=$mypassword");
+		 }
       }else {
          $error = "Your Login Name or Password is invalid";
       }
@@ -45,12 +53,12 @@
 					<input type="text" id="username" name="username">
 					<br>
 					<br>
-					<label for="password">Licence no:</label>
+					<label for="password">License no:</label>
 					<input type="password" id="password" name="password">
 					<br>
 					<br>
 					<div id="lower">
-						<input type="checkbox"><label class="check" for="checkbox">Administrator login</label>
+						<input type="checkbox" name="admin-box"><label class="check" for="checkbox">Administrator login</label>
 						<br>
 						<br>
 						<input type="submit" value="Submit">
