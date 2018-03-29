@@ -1,0 +1,66 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.header{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.header table{
+	width: 100%;
+	padding: 30px;
+}
+.header h2{
+    margin-left: auto;
+    margin-right: auto;
+}
+.header table #login{
+	text-align: right;
+}
+.row{
+	padding: 30px;
+	display: block;
+	height: 500px;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.row .master-form{
+	float: left;
+    width: 50%;
+}
+.row .master-table{
+	float: left;
+    width: 50%;
+	margin-left: auto;
+  	margin-right: auto;
+  	margin-top: 30px;
+  	margin-top: 30px;
+  	text-align: center;
+}
+
+.master-table table {
+    color: #333; /* Lighten up font color */
+    font-family: Helvetica, Arial, sans-serif; /* Nicer font */
+    max-width: 600px;
+	min-width: 400px;
+    border-collapse:
+    collapse; border-spacing: 0;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.master-table td, th { border: 1px solid #CCC; height: 30px; padding: 10px;} /* Make cells a bit taller */
+
+.master-table th {
+    background: #F3F3F3; /* Light grey background */
+    font-weight: bold; /* Make sure they're bold */
+}
+
+.master-table td {
+    background: #FAFAFA; /* Lighter grey background */
+    text-align: center; /* Center our text */
+}

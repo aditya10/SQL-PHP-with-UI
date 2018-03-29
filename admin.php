@@ -1,143 +1,288 @@
-
-
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Add Record Form</title>
-</head>
-<body>
-<form action="" method="post">
-    <p>
-        <label for="license_num">License Num:</label>
-        <input type="text" name="license_num" id="license_num">
-    </p>
-    <p>
-        <label for="position">Position:</label>
-        <input type="text" name="position" id="position">
-    </p>
-    <p>
-        <label for="staff_name">Name:</label>
-        <input type="text" name="staff_name" id="staff_name">
-    </p>
-    <input type="submit" value="Add Person" name="submit_entry">
-	<input type="submit" value="Search" name="search_license">
-	<input type="submit" value="Delete" name="delete_license">
-	<input type="submit" value="Update" name="update_license">
-	
-</form>
+	<head>
+        <title>Team 11 - CPSC 304 - Airport Admin</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    </head>
+	<body>
+		<div class="header">
+			<table>
+				<tr>
+					<td id="title"><h2>Airport Database - Admin Center</h2></td>
+				</tr>
+			</table>
+        </div>
 	
 	
-	<?php
-include("connect.php");
-session_start();
-if(isset($_POST['submit_entry'])) {
-		// Escape user inputs for security
-		$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
-		$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
-		$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
+	<div class="row" id="airport-staff">
+		<div class="master-form">
+				<form action="" method="post">
+					<p>
+						<label for="license_num">License Num:</label>
+						<input type="text" name="license_num" id="license_num">
+					</p>
+					<p>
+						<label for="position">Position: </label>
+						<input type="text" name="position" id="position"> (not required for searching/deleting)
+					</p>
+					<p>
+						<label for="staff_name">Name: </label> 
+						<input type="text" name="staff_name" id="staff_name"> (not required for searching/deleting)
+					</p>
+					<input type="submit" value="Add Person" name="submit_entry">
+					<input type="submit" value="Search" name="search_license">
+					<input type="submit" value="Delete" name="delete_license">
+					<input type="submit" value="Update" name="update_license">
+	
+				</form>
+	
+	
+				<?php
+				include("connect.php");
+				session_start();
 
-	if($license_num>0){
-		// attempt insert query execution
-		$sql = "INSERT INTO airport_staff VALUES ('$license_num', '$position', '$staff_name')";
-		if(mysqli_query($conn, $sql)){
-			echo "Records added successfully.";
-		} else{
-			echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+				if(isset($_POST['submit_entry'])) {
+						// Escape user inputs for security
+						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+						$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
+						$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
+
+					if($license_num>0){
+						// attempt insert query execution
+						$sql = "INSERT INTO airport_staff VALUES ('$license_num', '$position', '$staff_name')";
+						if(mysqli_query($conn, $sql)){
+							echo "Records added successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid license number entered.";
+					}
+				}
+
+				if(isset($_POST['search_license'])) {
+						// Escape user inputs for security
+						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+
+					$sql = "SELECT * FROM airport_staff WHERE license_num='$license_num'";
+					$result = $conn->query($sql);
+
+					if ($result->num_rows > 0) {
+						// output data of each row
+						echo "<table><tr><th>License No</th><th>Position</th><th>Name</th></tr>";
+						while($row = $result->fetch_assoc()) {
+							echo "<tr>";
+							echo "<td>" . $row["license_num"]. "</td><td>" . $row["position"]. "</td><td>" . $row["staff_name"]. "</td>";
+							echo "</tr>";
+						}
+						echo "</table>";
+					} else {
+						echo "0 results";
+					}
+				}
+
+				if(isset($_POST['delete_license'])) {
+						// Escape user inputs for security
+						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+
+					if($license_num>0){
+						// attempt insert query execution
+						$sql = "DELETE FROM airport_staff WHERE license_num='$license_num'";
+						if(mysqli_query($conn, $sql)){
+							echo "Record deleted successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid license number entered.";
+					}
+				}
+
+				if(isset($_POST['update_license'])) {
+						// Escape user inputs for security
+						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+						$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
+						$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
+
+					if($license_num>0){
+						// attempt insert query execution
+						$sql = "UPDATE airport_staff SET position='$position', staff_name='$staff_name' WHERE license_num='$license_num'";
+						if(mysqli_query($conn, $sql)){
+							echo "Record updated successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid license number entered.";
+					}
+				}
+
+				// close connection
+				mysqli_close($conn);
+				?>
+	
+			</div>
+		<div class="master-table">
+
+		<?php
+			include("connect.php");
+
+			$sql = "SELECT * FROM airport_staff"; //WHERE arrtime >'$now'
+			$result = $conn->query($sql);
+
+			if ($result->num_rows > 0) {
+				// output data of each row
+				echo "<table><tr><th>License No</th><th>Position</th><th>Name</th></tr>";
+				while($row = $result->fetch_assoc()) {
+					echo "<tr>";
+					echo "<td>" . $row["license_num"]. "</td><td>" . $row["position"]. "</td><td>" . $row["staff_name"]. "</td>";
+					echo "</tr>";
+				}
+				echo "</table>";
+			} else {
+				echo "0 results";
+			}
+			// close connection
+			mysqli_close($conn);
+		 ?>
+
+		</div>
+	</div>
+	<div class="row" id="department">
+		<div class="master-form">
+	
+			<form action="" method="post">
+				<label for="dept_type">Department:</label>
+				<input type="text" name="dept_type" id="dept_type">
+				
+				<br><br>
+				<label for="manager">Manager: </label>
+				<input type="text" name="manager" id="manager"> (not required for searching/deleting)
+				<br><br>
+				
+				<label for="traffic">Traffic: </label> 
+				<input type="text" name="traffic" id="traffic"> (not required for searching/deleting)
+				<br><br>
+
+				<input type="submit" value="Add Department" name="submit_dept">
+				<input type="submit" value="Search" name="search_dept">
+				<input type="submit" value="Delete" name="delete_dept">
+				<input type="submit" value="Update" name="update_dept">
+			</form>
+	
+	
+		<?php
+		include("connect.php");
+		session_start();
+
+		if(isset($_POST['submit_dept'])) {
+				// Escape user inputs for security
+				$dept_type = mysqli_real_escape_string($conn, $_REQUEST['dept_type']);
+				$manager = mysqli_real_escape_string($conn, $_REQUEST['manager']);
+				$traffic = mysqli_real_escape_string($conn, $_REQUEST['traffic']);
+
+			if($dept_type){
+				// attempt insert query execution
+				$sql = "INSERT INTO department VALUES ('$dept_type', '$manager', '$traffic')";
+				if(mysqli_query($conn, $sql)){
+					echo "Record added successfully.";
+				} else{
+					echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+				}
+			} else{
+				echo "Error: invalid department entered.";
+			}
 		}
-	} else{
-		echo "Error: invalid license number entered.";
-	}
-}
 
-if(isset($_POST['search_license'])) {
-		// Escape user inputs for security
-		$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+		if(isset($_POST['search_dept'])) {
+				// Escape user inputs for security
+				$dept_type = mysqli_real_escape_string($conn, $_REQUEST['dept_type']);
 
-	$sql = "SELECT * FROM airport_staff WHERE license_num='$license_num'";
-	$result = $conn->query($sql);
+			$sql = "SELECT * FROM department WHERE dept_type='$dept_type'";
+			$result = $conn->query($sql);
 
-	if ($result->num_rows > 0) {
-		// output data of each row
-		echo "<table><tr><th>License No</th><th>Position</th><th>Name</th></tr>";
-		while($row = $result->fetch_assoc()) {
-			echo "<tr>";
-			echo "<td>" . $row["license_num"]. "</td><td>" . $row["position"]. "</td><td>" . $row["staff_name"]. "</td>";
-			echo "</tr>";
+			if ($result->num_rows > 0) {
+					// output data of each row
+					echo "<table><tr><th>Department</th><th>Manager</th><th>Traffic</th></tr>";
+					while($row = $result->fetch_assoc()) {
+						echo "<tr>";
+						echo "<td>" . $row["dept_type"]. "</td><td>" . $row["manager"]. "</td><td>" . $row["traffic"]. "</td>";
+						echo "</tr>";
+					}
+					echo "</table>";
+				} else {
+					echo "0 results";
+				}
 		}
-		echo "</table>";
-	} else {
-		echo "0 results";
-	}
-}
 
-if(isset($_POST['delete_license'])) {
-		// Escape user inputs for security
-		$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
+		if(isset($_POST['delete_dept'])) {
+				// Escape user inputs for security
+				$dept_type = mysqli_real_escape_string($conn, $_REQUEST['dept_type']);
 
-	if($license_num>0){
-		// attempt insert query execution
-		$sql = "DELETE FROM airport_staff WHERE license_num='$license_num'";
-		if(mysqli_query($conn, $sql)){
-			echo "Record deleted successfully.";
-		} else{
-			echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+			if($dept_type){
+				// attempt insert query execution
+				$sql = "DELETE FROM department WHERE dept_type='$dept_type'";
+				if(mysqli_query($conn, $sql)){
+					echo "Record deleted successfully.";
+				} else{
+					echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+				}
+			} else{
+				echo "Error: invalid department entered.";
+			}
 		}
-	} else{
-		echo "Error: invalid license number entered.";
-	}
-}
-	
-if(isset($_POST['update_license'])) {
-		// Escape user inputs for security
-		$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
-		$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
-		$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
 
-	if($license_num>0){
-		// attempt insert query execution
-		$sql = "UPDATE airport_staff SET position='$position', staff_name='$staff_name' WHERE license_num='$license_num'";
-		if(mysqli_query($conn, $sql)){
-			echo "Record updated successfully.";
-		} else{
-			echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+		if(isset($_POST['update_dept'])) {
+				// Escape user inputs for security
+				$dept_type = mysqli_real_escape_string($conn, $_REQUEST['dept_type']);
+				$manager = mysqli_real_escape_string($conn, $_REQUEST['manager']);
+				$traffic = mysqli_real_escape_string($conn, $_REQUEST['traffic']);
+
+			if($dept_type){
+				// attempt insert query execution
+				$sql = "UPDATE department SET traffic='$traffic', manager='$manager' WHERE dept_type='$dept_type'";
+				if(mysqli_query($conn, $sql)){
+					echo "Record updated successfully.";
+				} else{
+					echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+				}
+			} else{
+				echo "Error: invalid department entered.";
+			}
 		}
-	} else{
-		echo "Error: invalid license number entered.";
-	}
-}
 
-
-
-// close connection
-mysqli_close($conn);
-?>
+		// close connection
+		mysqli_close($conn);
+		?>
 	
-	
-	
-	<br>
-	<br>
-	<?php
-	include("connect.php");
-	
-	$sql = "SELECT * FROM airport_staff"; //WHERE arrtime >'$now'
-	$result = $conn->query($sql);
+		</div>
+		<div class="master-table">
 
-	if ($result->num_rows > 0) {
-		// output data of each row
-		echo "<table><tr><th>License No</th><th>Position</th><th>Name</th></tr>";
-		while($row = $result->fetch_assoc()) {
-			echo "<tr>";
-			echo "<td>" . $row["license_num"]. "</td><td>" . $row["position"]. "</td><td>" . $row["staff_name"]. "</td>";
-			echo "</tr>";
-		}
-		echo "</table>";
-	} else {
-		echo "0 results";
-	}
-	// close connection
-	mysqli_close($conn);
-    ?>
+			<?php
+				include("connect.php");
 
+				$sql = "SELECT * FROM department ORDER BY traffic DESC"; //WHERE arrtime >'$now'
+				$result = $conn->query($sql);
+
+				if ($result->num_rows > 0) {
+					// output data of each row
+					echo "<table><tr><th>Department</th><th>Manager</th><th>Traffic</th></tr>";
+					while($row = $result->fetch_assoc()) {
+						echo "<tr>";
+						echo "<td>" . $row["dept_type"]. "</td><td>" . $row["manager"]. "</td><td>" . $row["traffic"]. "</td>";
+						echo "</tr>";
+					}
+					echo "</table>";
+				} else {
+					echo "0 results";
+				}
+				// close connection
+				mysqli_close($conn);
+			 ?>
+		
+		</div>
+	</div>
+	<div id="other-stuff"></div>
 	
 </body>
 </html>
