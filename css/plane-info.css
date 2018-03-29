@@ -1,0 +1,27 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+.header{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.header table{
+	width: 100%;
+	padding: 30px;
+}
+.header h2{
+    margin-left: auto;
+    margin-right: auto;
+}
+.header table #login{
+	text-align: right;
+}
+.info h3{
+	font-size: 20px;
+}
+
+.info{
+	font-size: 20px;
+	margin: 30px;
+}

@@ -1,7 +1,7 @@
 <html>
 	<head>
         <title>Plane Information</title>
-        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/plane-info.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
     <body>
@@ -13,7 +13,7 @@
                     </tr>
                 </table>
             </div>
-		
+		<div class="info">
 		<?php
 
 			if(isset($_GET['fl_no'])){
@@ -27,21 +27,21 @@
 
 				if ($result->num_rows == 1) {
 					// output data of each row
-					echo "<h2>All the information about Flight ".$fl_no.":</h2><br><br>";
+					echo "<h3>All the information about Flight ".$fl_no.":</h3><br>";
 			
 					$row = $result->fetch_assoc();
 					
-					echo "Airline Name: ".$row["airline_name"]."<br>";
-					echo "Plane Code: ".$row["plane_num"]."<br>";
-					echo "Departure City: ".$row["depcity"]."<br>";
-					echo "Arrival City: ".$row["arrcity"]."<br>";
-					echo "Departure Time: ".$row["deptime"]."<br>";
-					echo "Arrival Time: ".$row["arrtime"]."<br>";
-					echo "Gate: ".$row["gate"]."<br>";
-					echo "Status: ".$row["status"]."<br>";
-					echo "Plane Model: ".$row["model"]."<br>";
-					echo "Terminal Number: ".$row["terminal_num"]."<br>";
-					echo "Terminal Location: ".$row["location"]."<br>";
+					echo "Airline Name:".$row["airline_name"]."<br><br>";
+					echo "Plane Code:          ".$row["plane_num"]."<br><br>";
+					echo "Departure City:      ".$row["depcity"]."<br><br>";
+					echo "Arrival City:        ".$row["arrcity"]."<br><br>";
+					echo "Departure Time:      ".$row["deptime"]."<br><br>";
+					echo "Arrival Time:        ".$row["arrtime"]."<br><br>";
+					echo "Gate:                ".$row["gate"]."<br><br>";
+					echo "Status:              ".$row["status"]."<br><br>";
+					echo "Plane Model:         ".$row["model"]."<br><br>";
+					echo "Terminal Number:     ".$row["terminal_num"]."<br><br>";
+					echo "Terminal Location:   ".$row["location"]."<br><br>";
 					
 				} else {
 					echo "Error in retrieving results";
@@ -51,7 +51,7 @@
 			}
 			
         ?>
-			
+			</div>	
 		</div>
 	</body>
 </html>
