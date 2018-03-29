@@ -159,8 +159,7 @@
 
 		</div>
 		</div>
-		
-		
+
 		
 		<div class="row" id="plane">
 		<div class="master-form">
@@ -171,7 +170,7 @@
 					</p>
 					<p>
 						<label for="capacity">capacity: </label>
-						<input type="text" name="capacity" id="capacity"> (not required for searching/deleting)
+						<input type="text" name="capacity" id="capacity"> Constraint: Must be between 1 and 1000.(not required for searching/deleting)
 					</p>
 					<p>
 						<label for="model">Model: </label> 
@@ -196,12 +195,16 @@
 						$model= mysqli_real_escape_string($conn, $_REQUEST['model']);
 
 					if($plane_num>0){
-						// attempt insert query execution
-						$sql = "INSERT INTO plane VALUES ('$plane_num', '$capacity', '$model', '$airline_name')";
-						if(mysqli_query($conn, $sql)){
-							echo "Records added successfully.";
+						if($capacity>0 && $capacity<1001){
+							// attempt insert query execution
+							$sql = "INSERT INTO plane VALUES ('$plane_num', '$capacity', '$model', '$airline_name')";
+							if(mysqli_query($conn, $sql)){
+								echo "Records added successfully.";
+							} else{
+								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							}
 						} else{
-							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							echo "Error: capacity is not between 1 and 1000.";
 						}
 					} else{
 						echo "Error: Please enter a unique integer plane number.";
