@@ -127,7 +127,7 @@
 		<?php
 			include("connect.php");
 
-			$sql = "SELECT * FROM airport_staff"; //WHERE arrtime >'$now'
+			$sql = "SELECT * FROM airport_staff ORDER BY license_num";
 			$result = $conn->query($sql);
 
 			if ($result->num_rows > 0) {
@@ -282,7 +282,43 @@
 		
 		</div>
 	</div>
-	<div id="other-stuff"></div>
+	<div id="row">
+		<div class="master-table">
+			<h3 align='center'>Collation of staff working in departments</h3>
+        <?php
+        	include("connect.php");
+
+       		$sql = "SELECT a.license_num, a.position, a.staff_name, d.dept_type, d.manager, d.traffic FROM airport_staff a, department d, works_in w WHERE a.license_num=w.license_num AND d.dept_type=w.dept_type ORDER BY a.license_num"; 
+		$result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            echo "<table>
+					<tr>
+					<th>License Num</th>
+					<th>Position</th>
+					<th>Staff Name</th>
+					<th>Department</th>
+					<th>Manager</th>
+					<th>Traffic</th>
+					</tr>";
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["license_num"]. "</td>";
+				echo "<td>" . $row["position"]. "</td>";
+				echo "<td>" . $row["staff_name"]. "</td>";
+				echo "<td>" . $row["dept_type"]. "</td>";
+				echo "<td>" . $row["manager"]. "</td>";
+				echo "<td>" . $row["traffic"]. "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "0 results";
+        }
+        ?>
+		</div>
+	</div>
 	
 </body>
 </html>
