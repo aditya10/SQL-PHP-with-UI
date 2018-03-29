@@ -89,7 +89,7 @@
 						// attempt insert query execution
 						$sql = "DELETE FROM airport_staff WHERE license_num='$license_num'";
 						if(mysqli_query($conn, $sql)){
-							echo "Record deleted successfully.";
+							echo "Any data related to $license_num has been deleted successfully.";
 						} else{
 							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 						}
@@ -223,7 +223,7 @@
 				// attempt insert query execution
 				$sql = "DELETE FROM department WHERE dept_type='$dept_type'";
 				if(mysqli_query($conn, $sql)){
-					echo "Record deleted successfully.";
+					echo "Any data related to $dept_type has been deleted successfully.";
 				} else{
 					echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 				}

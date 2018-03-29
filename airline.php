@@ -60,7 +60,7 @@
 
 					if($license_num>0){
 						// attempt insert query execution
-						$sql = "INSERT INTO airline_staff VALUES ('$license_num', '$position', '$staff_name', '$airline_name')";
+						$sql = "INSERT INTO airplane_staff VALUES ('$license_num', '$position', '$staff_name', '$airline_name')";
 						if(mysqli_query($conn, $sql)){
 							echo "Records added successfully.";
 						} else{
@@ -75,7 +75,7 @@
 						// Escape user inputs for security
 						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
 
-					$sql = "SELECT * FROM airline_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
+					$sql = "SELECT * FROM airplane_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
@@ -98,9 +98,9 @@
 
 					if($license_num>0){
 						// attempt insert query execution
-						$sql = "DELETE FROM airline_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
+						$sql = "DELETE FROM airplane_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
 						if(mysqli_query($conn, $sql)){
-							echo "Record deleted successfully.";
+							echo "Any data related to $license_num has been deleted successfully.";
 						} else{
 							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 						}
@@ -117,7 +117,7 @@
 
 					if($license_num>0){
 						// attempt insert query execution
-						$sql = "UPDATE airline_staff SET position='$position', staff_name='$staff_name' WHERE license_num='$license_num' AND airline_name='$airline_name'";
+						$sql = "UPDATE airplane_staff SET position='$position', staff_name='$staff_name' WHERE license_num='$license_num' AND airline_name='$airline_name'";
 						if(mysqli_query($conn, $sql)){
 							echo "Record updated successfully.";
 						} else{
@@ -240,7 +240,7 @@
 						// attempt insert query execution
 						$sql = "DELETE FROM plane WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
 						if(mysqli_query($conn, $sql)){
-							echo "Record deleted successfully.";
+							echo "Any data related to $plane_num has been deleted successfully.";
 						} else{
 							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 						}
@@ -488,7 +488,7 @@
 						// attempt insert query execution
 						$sql = "DELETE FROM flight WHERE flight_num='$flight_num'";
 						if(mysqli_query($conn, $sql)){
-							echo "Record deleted successfully.";
+							echo "Any data related to $flight_num has been deleted successfully.";
 						} else{
 							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 						}
