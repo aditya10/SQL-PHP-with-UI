@@ -25,6 +25,7 @@
         </div>
 		
 		<div class="row" id="airplane-staff">
+			<h3>Airplane Staff Management</h3>
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -149,6 +150,7 @@
 
 		
 		<div class="row" id="plane">
+			<h3>Airline Plane Management</h3>
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -276,6 +278,7 @@
 		</div>
 	
 		<div class="row" id="flight">
+			<h3>Airline Flights</h3>
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -316,7 +319,7 @@
 					</p>
 					<p>
 						<label for="terminal_num">Terminal: </label> 
-						<input type="text" name="terminal_num" id="terminal_num"> (Necessary for insertion. Please use a terminal number that exisits)
+						<input type="text" name="terminal_num" id="terminal_num"> (Necessary for insertion, choose Terminal number between 1 and 5)
 					</p>
 					<input type="submit" value="Add Flight" name="submit_flight"><br>
 					<br>
@@ -331,9 +334,21 @@
 					<br>
 					<input type="submit" value="Search" name="search_flight"><br><br>
 					
-					<input type="submit" value="Delete" name="delete_flight"><br><br>
+					<input type="submit" value="Delete" name="delete_flight">
 					
 					<input type="submit" value="Update" name="update_flight">
+					<br>
+					<br>
+					<h4>To update Terminal, please use this:</h4>
+					<p>
+						<label for="flight_n">Flight Num:</label>
+						<input type="text" name="flight_n" id="flight_n">
+					</p>
+					<p>
+						<label for="terminal_n">Terminal: </label> 
+						<input type="text" name="terminal_n" id="terminal_n"> (Choose Terminal number between 1 and 5)
+					</p>
+					<input type="submit" value="Update Terminal" name="update_terminal">
 	
 				</form>
 	
@@ -358,7 +373,12 @@
 							$status= mysqli_real_escape_string($conn, $_REQUEST['status']);
 							$terminal_num = mysqli_real_escape_string($conn, $_REQUEST['terminal_num']);
 							
-						if($flight_num>0 && $terminal_num>0){
+							$sql = "SELECT capacity FROM plane WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
+							$result = $conn->query($sql);
+							$row = $result->fetch_assoc();
+							$capacity = $row["capacity"];
+						if($passengers <= $capacity){
+						if($flight_num>0 && $terminal_num>0 && $terminal_num<6){
 							// attempt insert query execution
 							$sql = "INSERT INTO flight VALUES ('$flight_num', '$plane_num', '$depcity', '$arrcity', '$deptime', '$arrtime', '$gate', '$passengers', '$status')";
 							if(mysqli_query($conn, $sql)){
@@ -372,8 +392,11 @@
 								echo "ERROR: Could not execute $sql. " . mysqli_error($conn);
 							}
 						} else{
-							echo "Error: Please enter a unique integer plane number.";
+							echo "Error: Please enter a unique integer flight number and check that terminal is between 1 and 5.";
 						}
+						} else{
+							echo "Error: Please ensure passengers is less than plane capacity.";
+							}
 						} else{
 							echo "Error: Please ensure plane number exists.";
 						}
@@ -504,6 +527,23 @@
 					if($flight_num>0){
 						// attempt insert query execution
 						$sql = "UPDATE flight SET ".create_query($plane_num, $depcity, $arrcity, $deptime, $arrtime, $gate, $passengers, $status)." WHERE flight_num='$flight_num'"; 
+						if(mysqli_query($conn, $sql)){
+							echo "Record updated successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid flight number entered.";
+					}
+				}
+				if(isset($_POST['update_terminal'])) {
+						// Escape user inputs for security
+						$flight_num = mysqli_real_escape_string($conn, $_REQUEST['flight_n']);
+						$terminal_num = mysqli_real_escape_string($conn, $_REQUEST['terminal_n']);
+
+					if($flight_num>0 && $terminal_num>0 && $terminal_num<6){
+						// attempt insert query execution
+						$sql = "UPDATE docked_at SET terminal_num='$terminal_num' WHERE flight_num='$flight_num'";
 						if(mysqli_query($conn, $sql)){
 							echo "Record updated successfully.";
 						} else{

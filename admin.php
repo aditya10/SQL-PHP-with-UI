@@ -148,7 +148,7 @@
 
 		</div>
 	</div>
-	<div class="row" id="airport-staff">
+	<div class="row" id="airplane-staff">
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -188,7 +188,7 @@
 
 					if($license_num>0){
 						// attempt insert query execution
-						$sql = "INSERT INTO airplane_staff VALUES ('$license_num', '$position', '$staff_name', '$airline_name'')";
+						$sql = "INSERT INTO airplane_staff VALUES ('$license_num', '$position', '$staff_name', '$airline_name')";
 						if(mysqli_query($conn, $sql)){
 							echo "Records added successfully.";
 						} else{
@@ -422,7 +422,7 @@
 		
 		</div>
 	</div>
-	<div id="row">
+	<div id="staff-dept">
 		<div class="master-table">
 			<h3 align='center'>Collation of staff working in departments</h3>
         <?php
@@ -459,26 +459,244 @@
         ?>
 		</div>
 	</div>
-	<div id="row">
-		<div class="master-table">
-			<h3>Division query</h3>
+	<div class="row" id="division">
+		<div class="master-form">
+			<form action="" method="post">
+					<p>
+						<label for="airline_name">Airline Name:</label>
+						<input type="text" name="airline_name" id="airline_name">
+					</p>
+					<input type="submit" value="Add Airline" name="submit_airline">
+					<input type="submit" value="Delete Airline" name="delete_airline">
+			</form>
+			
 			<?php
-			//HUJH
-				echo "Finds planes which have been docked at every terminal.";
-				$sql = "SELECT P.plane_num FROM plane P, flight F WHERE NOT EXISTS (SELECT T.terminal_num FROM terminal T WHERE T.terminal_num NOT IN (SELECT D.terminal_num FROM docked_at D WHERE D.flight_num=F.flight_num)) AND P.plane_num=F.plane_num";
+				include("connect.php");
+				session_start();
+
+				if(isset($_POST['submit_airline'])) {
+						// Escape user inputs for security
+						$airline_name = mysqli_real_escape_string($conn, $_REQUEST['airline_name']);
+
+					if($airline_name){
+						// attempt insert query execution
+						$sql = "INSERT INTO airline VALUES ('$airline_name')";
+						if(mysqli_query($conn, $sql)){
+							echo "Records added successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Airline Name entered.";
+					}
+				}
+
+				if(isset($_POST['delete_airline'])) {
+						// Escape user inputs for security
+						$airline_name = mysqli_real_escape_string($conn, $_REQUEST['airline_name']);
+
+					if($airline_name){
+						// attempt insert query execution
+						$sql = "DELETE FROM airline WHERE airline_name='$airline_name'";
+						if(mysqli_query($conn, $sql)){
+							echo "$airline_name has been deleted successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Airline Name entered.";
+					}
+				}
+				// close connection
+				mysqli_close($conn);
+				?>
+			
+			<form action="" method="post">
+					<p>
+						<label for="alliance_name">Alliance Name:</label>
+						<input type="text" name="alliance_name" id="alliance_name">
+					</p>
+					<input type="submit" value="Add Alliance" name="submit_alliance">
+					<input type="submit" value="Delete Alliance" name="delete_alliance">
+			</form>
+			
+			<?php
+				include("connect.php");
+				session_start();
+
+				if(isset($_POST['submit_alliance'])) {
+						// Escape user inputs for security
+						$alliance_name = mysqli_real_escape_string($conn, $_REQUEST['alliance_name']);
+
+					if($alliance_name){
+						// attempt insert query execution
+						$sql = "INSERT INTO alliance VALUES ('$alliance_name')";
+						if(mysqli_query($conn, $sql)){
+							echo "Records added successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Alliance Name entered.";
+					}
+				}
+
+				if(isset($_POST['delete_alliance'])) {
+						// Escape user inputs for security
+						$alliance_name = mysqli_real_escape_string($conn, $_REQUEST['alliance_name']);
+
+					if($alliance_name){
+						// attempt insert query execution
+						$sql = "DELETE FROM alliance WHERE alliance_name='$alliance_name'";
+						if(mysqli_query($conn, $sql)){
+							echo "$alliance_name has been deleted successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Alliance Name entered.";
+					}
+				}
+				// close connection
+				mysqli_close($conn);
+				?>
+			
+			<form action="" method="post">
+					<p>
+						<label for="alliance_num">Alliance Number:</label>
+						<input type="text" name="alliance_num" id="alliance_num">
+					</p>
+					<p>
+						<label for="alliance_name">Alliance Name:</label>
+						<input type="text" name="alliance_name" id="alliance_name">
+					</p>
+					<p>
+						<label for="airline_name">Airline Name:</label>
+						<input type="text" name="airline_name" id="airline_name">
+					</p>
+					<input type="submit" value="Add Airline-Alliance" name="submit_all">
+					<input type="submit" value="Delete Airline-Alliance" name="delete_all">
+			</form>
+			
+			<?php
+				include("connect.php");
+				session_start();
+
+				if(isset($_POST['submit_all'])) {
+						// Escape user inputs for security
+					$alliance_num = mysqli_real_escape_string($conn, $_REQUEST['alliance_num']);
+					$alliance_name = mysqli_real_escape_string($conn, $_REQUEST['alliance_name']);
+					$airline_name = mysqli_real_escape_string($conn, $_REQUEST['airline_name']);
+
+					if($alliance_num>0 && $alliance_name && $airline_name){
+						// attempt insert query execution
+						$sql = "INSERT INTO airline_alliance VALUES ('$alliance_num', '$alliance_name', '$airline_name')";
+						if(mysqli_query($conn, $sql)){
+							echo "Records added successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Alliance Num, Airline or Alliance Name entered.";
+					}
+				}
+
+				if(isset($_POST['delete_all'])) {
+						// Escape user inputs for security
+						$alliance_num = mysqli_real_escape_string($conn, $_REQUEST['alliance_num']);
+
+					if($alliance_num>0){
+						// attempt insert query execution
+						$sql = "DELETE FROM airline_alliance WHERE alliance_num='$alliance_num'";
+						if(mysqli_query($conn, $sql)){
+							echo "Alliance number $alliance_num has been deleted successfully.";
+						} else{
+							echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+						}
+					} else{
+						echo "Error: invalid Alliance Number entered.";
+					}
+				}
+				// close connection
+				mysqli_close($conn);
+				?>
+			
+		</div>
+		<div class="master-table">
+			<h3>Airlines</h3>
+			<?php
+			include("connect.php");
+				session_start();
+				$sql = "SELECT * FROM airline";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
-					echo "<table><tr><th>Plane No</th></tr>";
+					echo "<table><tr><th>Airline Name</th></tr>";
 					while($row = $result->fetch_assoc()) {
 							echo "<tr>";
-							echo "<td>" . $row["plane_num"]. "</td>";
+							echo "<td>" . $row["airline_name"]. "</td>";
 							echo "</tr>";
 					}
 					echo "</table>";
 				} else {
 						echo "0 results";
 				}
-			//NJKH
+			?>
+			<h3>Alliances</h3>
+			<?php
+			include("connect.php");
+				session_start();
+				$sql = "SELECT * FROM alliance";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+					echo "<table><tr><th>Alliance Name</th></tr>";
+					while($row = $result->fetch_assoc()) {
+							echo "<tr>";
+							echo "<td>" . $row["alliance_name"]. "</td>";
+							echo "</tr>";
+					}
+					echo "</table>";
+				} else {
+						echo "0 results";
+				}
+			?>
+			<h3>Airlines and Alliances</h3>
+			<?php
+			include("connect.php");
+				session_start();
+				$sql = "SELECT * FROM airline_alliance";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+					echo "<table><tr><th>Alliance Num</th><th>Alliance Name</th><th>Airline Name</th></tr>";
+					while($row = $result->fetch_assoc()) {
+							echo "<tr>";
+							echo "<td>" . $row["alliance_num"]. "</td>";
+							echo "<td>" . $row["alliance_name"]. "</td>";
+							echo "<td>" . $row["airline_name"]. "</td>";
+							echo "</tr>";
+					}
+					echo "</table>";
+				} else {
+						echo "0 results";
+				}
+			?>
+			<h3>Airlines and Alliances</h3>
+			<?php
+			include("connect.php");
+				session_start();
+				echo "Division Query: Airlines that participate in all Alliances";
+				$sql = "SELECT A.airline_name FROM airline A WHERE NOT EXISTS (SELECT AL.alliance_name FROM alliance AL WHERE AL.alliance_name NOT IN (SELECT AA.alliance_name FROM airline_alliance AA WHERE AA.airline_name= A.airline_name))";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+					echo "<table><tr><th>Airline Name</th></tr>";
+					while($row = $result->fetch_assoc()) {
+							echo "<tr>";
+							echo "<td>" . $row["airline_name"]. "</td>";
+							echo "</tr>";
+					}
+					echo "</table>";
+				} else {
+						echo "0 results";
+				}
 			?>
 		</div>
 	</div>
@@ -486,7 +704,8 @@
 		<div class="master-table">
 			<h3>Aggregation query</h3>
 		<?php
-		//HUJH
+			include("connect.php");
+				session_start();
 		echo "Finds the number of staff in each airline:";
 		$sql = "SELECT A.airline_name, COUNT(B.license_num) AS 'Number' FROM airline A, airplane_staff B WHERE A.airline_name = B.airline_name GROUP BY A.airline_name";
 		$result = $conn->query($sql);
@@ -501,12 +720,14 @@
 		} else {
 				echo "0 results";
 		}
-		//NJKH
+
 		?>
 			<br>
 			<br>
 			<?php
-		//HUJH
+			include("connect.php");
+				session_start();
+
 		echo "Finds the number of delayed flights per airline:";
 		$sql = "SELECT A.airline_name, COUNT(F.status) AS 'num-delayed' FROM airline A, flight F, plane P WHERE A.airline_name = P.airline_name AND P.plane_num = F.plane_num AND F.status='Delayed' GROUP BY A.airline_name";
 		$result = $conn->query($sql);
@@ -529,7 +750,8 @@
 		<div class="master-table">
 		<h3>Nested Aggregation with Group By</h3>
 		<?php
-	//HUJH
+			include("connect.php");
+				session_start();
 		echo "Finds the average of plane capacities of each airline and then finds the maximum/minimum across all of these averages:";
 		$sql = "SELECT DISTINCT Helper.avecap FROM (SELECT P.airline_name, AVG(P.capacity) avecap FROM plane P GROUP BY P.airline_name) as Helper WHERE Helper.avecap = (SELECT MIN(avecap) FROM (SELECT P.airline_name, AVG(P.capacity) AS avecap FROM plane P GROUP BY P.airline_name) as temp)";
 		$result = $conn->query($sql);
@@ -566,7 +788,8 @@
 		<div class="master-table">
 		<h3>Nested Aggregation with Group By</h3>
 		<?php
-	//HUJH
+			include("connect.php");
+				session_start();
 		echo "Finds the sum of plane capacities of each airline and then finds the maximum/minimum across all of these sums:";
 		$sql = "SELECT DISTINCT Helper.sumcap FROM (SELECT P.airline_name, SUM(P.capacity) sumcap FROM plane P GROUP BY P.airline_name) as Helper WHERE Helper.sumcap = (SELECT MIN(sumcap) FROM (SELECT P.airline_name, SUM(P.capacity) AS sumcap FROM plane P GROUP BY P.airline_name) as temp)";
 		$result = $conn->query($sql);

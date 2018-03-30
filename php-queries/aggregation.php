@@ -77,7 +77,7 @@
 		}
 
 		?>
-<?php
+			<?php
 		  $conn->close();
         ?>
 
