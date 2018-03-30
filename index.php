@@ -16,11 +16,11 @@
                 </table>
             </div>
         <div class="table">
-          <h3>Arrivals</h3>
+          <h3>Flights</h3>
         <?php
         	include("connect.php");
 		?>
-		
+
 		<?php
         $now = date("Y-m-d H:i:s");
         $sql = "SELECT flight_num, depcity, arrcity FROM flight"; //WHERE arrtime >'$now'
@@ -39,35 +39,9 @@
             echo "0 results";
         }
         ?>
-      </div>
-		  
-		  
-      <div class="table">
-        <h3>Departures</h3>
-        <?php
-		  
-		$now = date("Y-m-d H:i:s");
-        $sql = "SELECT flight_num, depcity, arrcity FROM flight"; //WHERE arrtime<'$now' AND deptime>'$now'
-        $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // output data of each row
-            echo "<table><tr><th>Flight Num</th><th>Departure City</th><th>Arrival City</th></tr>";
-            while($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row["flight_num"]. "</td><td>" . $row["depcity"]. "</td><td>" . $row["arrcity"]. "</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "0 results";
-        }
-        ?>
-		  
-		<?php
-		  $conn->close();
-        ?>
-    </div>
+		  </div>
+
 	</div>
   </body>
 </html>

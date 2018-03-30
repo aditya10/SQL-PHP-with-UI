@@ -10,7 +10,6 @@
 		if(isset($_GET['li_num'])){
 			$li_num = $_GET['li_num'];
 			include("connect.php");
-
 			$sql = "SELECT airline_name FROM airplane_staff WHERE license_num='$li_num'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
@@ -51,13 +50,11 @@
 				<?php
 				include("connect.php");
 				session_start();
-
 				if(isset($_POST['submit_entry'])) {
 						// Escape user inputs for security
 						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
 						$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
 						$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
-
 					if($license_num>0){
 						// attempt insert query execution
 						$sql = "INSERT INTO airplane_staff VALUES ('$license_num', '$position', '$staff_name', '$airline_name')";
@@ -70,14 +67,11 @@
 						echo "Error: invalid license number entered.";
 					}
 				}
-
 				if(isset($_POST['search_license'])) {
 						// Escape user inputs for security
 						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
-
 					$sql = "SELECT * FROM airplane_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
 					$result = $conn->query($sql);
-
 					if ($result->num_rows > 0) {
 						// output data of each row
 						echo "<table><tr><th>License No</th><th>Position</th><th>Name</th><th>Airline</th></tr>";
@@ -91,11 +85,9 @@
 						echo "0 results";
 					}
 				}
-
 				if(isset($_POST['delete_license'])) {
 						// Escape user inputs for security
 						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
-
 					if($license_num>0){
 						// attempt insert query execution
 						$sql = "DELETE FROM airplane_staff WHERE license_num='$license_num' AND airline_name='$airline_name'";
@@ -108,13 +100,11 @@
 						echo "Error: invalid license number entered.";
 					}
 				}
-
 				if(isset($_POST['update_license'])) {
 						// Escape user inputs for security
 						$license_num = mysqli_real_escape_string($conn, $_REQUEST['license_num']);
 						$position = mysqli_real_escape_string($conn, $_REQUEST['position']);
 						$staff_name = mysqli_real_escape_string($conn, $_REQUEST['staff_name']);
-
 					if($license_num>0){
 						// attempt insert query execution
 						$sql = "UPDATE airplane_staff SET position='$position', staff_name='$staff_name' WHERE license_num='$license_num' AND airline_name='$airline_name'";
@@ -127,20 +117,17 @@
 						echo "Error: invalid license number entered.";
 					}
 				}
-
 				// close connection
 				mysqli_close($conn);
 				?>
 	
-			</div>
+		</div>
 		<div class="master-table">
 
 		<?php
 			include("connect.php");
-
 			$sql = "SELECT * FROM airplane_staff WHERE airline_name='$airline_name' ORDER BY license_num";
 			$result = $conn->query($sql);
-
 			if ($result->num_rows > 0) {
 				// output data of each row
 				echo "<table><tr><th>License No</th><th>Position</th><th>Name</th></tr>";
@@ -187,13 +174,11 @@
 				<?php
 				include("connect.php");
 				session_start();
-
 				if(isset($_POST['submit_plane'])) {
 						// Escape user inputs for security
 						$plane_num = mysqli_real_escape_string($conn, $_REQUEST['plane_num']);
 						$capacity = mysqli_real_escape_string($conn, $_REQUEST['capacity']);
 						$model= mysqli_real_escape_string($conn, $_REQUEST['model']);
-
 					if($plane_num>0){
 						if($capacity>0 && $capacity<1001){
 							// attempt insert query execution
@@ -210,14 +195,11 @@
 						echo "Error: Please enter a unique integer plane number.";
 					}
 				}
-
 				if(isset($_POST['search_plane'])) {
 						// Escape user inputs for security
 						$plane_num = mysqli_real_escape_string($conn, $_REQUEST['plane_num']);
-
 					$sql = "SELECT * FROM plane WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
 					$result = $conn->query($sql);
-
 					if ($result->num_rows > 0) {
 						// output data of each row
 						echo "<table><tr><th>Plane No</th><th>Capacity</th><th>Model</th><th>Airline</th></tr>";
@@ -231,11 +213,9 @@
 						echo "0 results";
 					}
 				}
-
 				if(isset($_POST['delete_plane'])) {
 						// Escape user inputs for security
 						$plane_num = mysqli_real_escape_string($conn, $_REQUEST['plane_num']);
-
 					if($plane_num>0){
 						// attempt insert query execution
 						$sql = "DELETE FROM plane WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
@@ -248,13 +228,11 @@
 						echo "Error: invalid plane number entered.";
 					}
 				}
-
 				if(isset($_POST['update_plane'])) {
 						// Escape user inputs for security
 						$plane_num = mysqli_real_escape_string($conn, $_REQUEST['plane_num']);
 						$capacity = mysqli_real_escape_string($conn, $_REQUEST['capacity']);
 						$model= mysqli_real_escape_string($conn, $_REQUEST['model']);
-
 					if($plane_num>0){
 						// attempt insert query execution
 						$sql = "UPDATE plane SET capacity='$capacity', model='$model' WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
@@ -267,7 +245,6 @@
 						echo "Error: invalid plane number entered.";
 					}
 				}
-
 				// close connection
 				mysqli_close($conn);
 				?>
@@ -277,10 +254,8 @@
 
 		<?php
 			include("connect.php");
-
 			$sql = "SELECT * FROM plane WHERE airline_name='$airline_name' ORDER BY plane_num";
 			$result = $conn->query($sql);
-
 			if ($result->num_rows > 0) {
 				// output data of each row
 				echo "<table><tr><th>Plane No</th><th>Capacity</th><th>Model</th></tr>";
@@ -366,7 +341,6 @@
 				<?php
 				include("connect.php");
 				session_start();
-
 				if(isset($_POST['submit_flight'])) {
 					
 						$flight_num = mysqli_real_escape_string($conn, $_REQUEST['flight_num']);
@@ -374,7 +348,6 @@
 						
 						$sql = "SELECT * FROM plane WHERE plane_num='$plane_num' AND airline_name='$airline_name'";
 						$result = $conn->query($sql);
-
 						if ($result->num_rows == 1){
 							$depcity= mysqli_real_escape_string($conn, $_REQUEST['depcity']);
 							$arrcity = mysqli_real_escape_string($conn, $_REQUEST['arrcity']);
@@ -406,7 +379,6 @@
 						}
 						
 				}
-
 				if(isset($_POST['search_flight'])) {
 					
 					
@@ -442,7 +414,6 @@
 					
 					$sql = "SELECT $search_str FROM flight WHERE flight_num='$flight_num'";
 					$result = $conn->query($sql);
-
 					if ($result->num_rows > 0) {
 	
 						while($row = $result->fetch_assoc()) {
@@ -479,11 +450,9 @@
 						echo "0 results";
 					}
 				}
-
 				if(isset($_POST['delete_flight'])) {
 						// Escape user inputs for security
 						$flight_num = mysqli_real_escape_string($conn, $_REQUEST['flight_num']);
-
 					if($flight_num>0){
 						// attempt insert query execution
 						$sql = "DELETE FROM flight WHERE flight_num='$flight_num'";
@@ -496,7 +465,6 @@
 						echo "Error: invalid flight number entered.";
 					}
 				}
-
 				if(isset($_POST['update_flight'])) {
 					
 					$flight_num = mysqli_real_escape_string($conn, $_REQUEST['flight_num']);
@@ -533,7 +501,6 @@
 					  return $noopt ? false : $cond;
 					 }
 						
-
 					if($flight_num>0){
 						// attempt insert query execution
 						$sql = "UPDATE flight SET ".create_query($plane_num, $depcity, $arrcity, $deptime, $arrtime, $gate, $passengers, $status)." WHERE flight_num='$flight_num'"; 
@@ -546,7 +513,6 @@
 						echo "Error: invalid flight number entered.";
 					}
 				}
-
 				// close connection
 				mysqli_close($conn);
 				?>
@@ -556,10 +522,8 @@
 
 		<?php
 			include("connect.php");
-
 			$sql = "SELECT f.flight_num, f.plane_num, f.depcity, f.arrcity, f.deptime, f.arrtime, f.gate, f.passengers, f.status, d.terminal_num FROM flight f, docked_at d, plane p WHERE f.flight_num=d.flight_num AND f.plane_num=p.plane_num AND p.airline_name='$airline_name'";
 			$result = $conn->query($sql);
-
 			if ($result->num_rows > 0) {
 				// output data of each row
 				echo "<table><tr><th>Flight Num</th><th>Plane Num</th><th>Departure City</th><th>Arrival City</th><th>Dep Time</th><th>Arrival Time</th><th>Gate</th><th>Passengers</th><th>Status</th><th>Terminal</th></tr>";
