@@ -468,7 +468,7 @@
 		<hr>
 		<br>
 	<div class="row" id="division">
-		<h3>Airplane and Alliance Management</h3>
+		<h3>Airline and Alliance Management</h3>
 		<div class="master-form">
 			<form action="" method="post">
 					<p>

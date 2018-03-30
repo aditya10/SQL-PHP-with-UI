@@ -23,7 +23,7 @@
 
 		<?php
         $now = date("Y-m-d H:i:s");
-        $sql = "SELECT flight_num, depcity, arrcity FROM flight"; //WHERE arrtime >'$now'
+        $sql = "SELECT flight_num, depcity, arrcity FROM flight";
 		$result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
