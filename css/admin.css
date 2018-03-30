@@ -64,3 +64,9 @@
     background: #FAFAFA; /* Lighter grey background */
     text-align: center; /* Center our text */
 }
+
+.row2{
+	display: block;
+	margin: 30px;
+	text-align: center;
+}

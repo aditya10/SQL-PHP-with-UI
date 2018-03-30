@@ -9,12 +9,14 @@
 			<table>
 				<tr>
 					<td id="title"><h2>Airport Database - Admin Center</h2></td>
+					<td id="home"><a href="index.php">Home</a></td>
 				</tr>
 			</table>
         </div>
 	
 	
 	<div class="row" id="airport-staff">
+		<h3>Airport Staff Management</h3>
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -149,6 +151,7 @@
 		</div>
 	</div>
 	<div class="row" id="airplane-staff">
+		<h3>Airplane Staff Management</h3>
 		<div class="master-form">
 				<form action="" method="post">
 					<p>
@@ -289,6 +292,7 @@
 		</div>
 	</div>
 	<div class="row" id="department">
+		<h3>Airport Departments Management</h3>
 		<div class="master-form">
 	
 			<form action="" method="post">
@@ -423,6 +427,7 @@
 		</div>
 	</div>
 	<div id="staff-dept">
+		
 		<div class="master-table">
 			<h3 align='center'>Collation of staff working in departments</h3>
         <?php
@@ -459,7 +464,11 @@
         ?>
 		</div>
 	</div>
+		<br>
+		<hr>
+		<br>
 	<div class="row" id="division">
+		<h3>Airplane and Alliance Management</h3>
 		<div class="master-form">
 			<form action="" method="post">
 					<p>
@@ -683,7 +692,7 @@
 			<?php
 			include("connect.php");
 				session_start();
-				echo "Division Query: Airlines that participate in all Alliances";
+				echo "Division Query: Airlines that participate in all Alliances<br>";
 				$sql = "SELECT A.airline_name FROM airline A WHERE NOT EXISTS (SELECT AL.alliance_name FROM alliance AL WHERE AL.alliance_name NOT IN (SELECT AA.alliance_name FROM airline_alliance AA WHERE AA.airline_name= A.airline_name))";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
@@ -698,15 +707,21 @@
 						echo "0 results";
 				}
 			?>
+			<br>
+			<br>
 		</div>
 	</div>
-	<div id="row">
+		
+	<div class="row2">
+		<br>
+		<hr>
+		<br>
+		<h3>Aggregation query</h3>
 		<div class="master-table">
-			<h3>Aggregation query</h3>
 		<?php
 			include("connect.php");
 				session_start();
-		echo "Finds the number of staff in each airline:";
+		echo "Finds the number of staff in each airline:<br>";
 		$sql = "SELECT A.airline_name, COUNT(B.license_num) AS 'Number' FROM airline A, airplane_staff B WHERE A.airline_name = B.airline_name GROUP BY A.airline_name";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
@@ -728,7 +743,7 @@
 			include("connect.php");
 				session_start();
 
-		echo "Finds the number of delayed flights per airline:";
+		echo "Finds the number of delayed flights per airline:<br>";
 		$sql = "SELECT A.airline_name, COUNT(F.status) AS 'num-delayed' FROM airline A, flight F, plane P WHERE A.airline_name = P.airline_name AND P.plane_num = F.plane_num AND F.status='Delayed' GROUP BY A.airline_name";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
@@ -746,13 +761,13 @@
 		?>
 		</div>
 	</div>
-	<div id="row">
-		<div class="master-table">
+	<div class="row2">
 		<h3>Nested Aggregation with Group By</h3>
+		<div class="master-table">
 		<?php
 			include("connect.php");
 				session_start();
-		echo "Finds the average of plane capacities of each airline and then finds the maximum/minimum across all of these averages:";
+		echo "Finds the average of plane capacities of each airline and then finds the maximum/minimum across all of these averages:<br>";
 		$sql = "SELECT DISTINCT Helper.avecap FROM (SELECT P.airline_name, AVG(P.capacity) avecap FROM plane P GROUP BY P.airline_name) as Helper WHERE Helper.avecap = (SELECT MIN(avecap) FROM (SELECT P.airline_name, AVG(P.capacity) AS avecap FROM plane P GROUP BY P.airline_name) as temp)";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
@@ -784,13 +799,13 @@
 		?>
 		</div>
 		
-		
+		<br>
+		<br>
 		<div class="master-table">
-		<h3>Nested Aggregation with Group By</h3>
 		<?php
 			include("connect.php");
 				session_start();
-		echo "Finds the sum of plane capacities of each airline and then finds the maximum/minimum across all of these sums:";
+		echo "Finds the sum of plane capacities of each airline and then finds the maximum/minimum across all of these sums:<br>";
 		$sql = "SELECT DISTINCT Helper.sumcap FROM (SELECT P.airline_name, SUM(P.capacity) sumcap FROM plane P GROUP BY P.airline_name) as Helper WHERE Helper.sumcap = (SELECT MIN(sumcap) FROM (SELECT P.airline_name, SUM(P.capacity) AS sumcap FROM plane P GROUP BY P.airline_name) as temp)";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {

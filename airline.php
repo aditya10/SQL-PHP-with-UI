@@ -20,6 +20,7 @@
 			<table>
 				<tr>
 					<td id="title"><h2>Airport Database - <?php echo $airline_name; ?> Admin Center </h2></td>
+					<td id="home"><a href="index.php">Home</a></td>
 				</tr>
 			</table>
         </div>
